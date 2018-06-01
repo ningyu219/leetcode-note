@@ -1,6 +1,7 @@
 package leetcodeExec;
 
 public class Solution {
+	
 	// 53. 最大子数组（动态规划）
 	public int maxSubArray(int[] nums) {
         int maxSum=Integer.MIN_VALUE,tempSum=0;
