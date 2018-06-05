@@ -18,13 +18,13 @@ class Interval {
 public class Solution_List {
     public List<Interval> merge(List<Interval> intervals) {
     	List<Interval> list = new ArrayList<Interval>();
-    	//ÅÅĞò£¬ÊµÏÖÁËComparator½Ó¿Ú
+    	//ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½Comparatorï¿½Ó¿ï¿½
     	Collections.sort(intervals,new Comparator<Interval>() {
 
 			@Override
 			public int compare(Interval o1, Interval o2) {
 				// TODO Auto-generated method stub
-				return o1.start - o2.start;//ÆğÊ¼ÖµÉıĞòÅÅĞò
+				return o1.start - o2.start;//ï¿½ï¿½Ê¼Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			}
 		});
 
@@ -32,26 +32,26 @@ public class Solution_List {
     		return list;
     	
     	Interval i1 = intervals.get(0);
-    	//±éÀú
+    	//ï¿½ï¿½ï¿½ï¿½
     	for(int i = 0; i < intervals.size(); i++){
     		Interval i2;
-    		//·ÖÇé¿öi2¸³Öµ
-    		if(i == intervals.size() - 1)//Èç¹ûiµ½×îºó£¬Ôö¼ÓÒ»¸öĞéÄâ×î´óµÄÇø¼ä
+    		//ï¿½ï¿½ï¿½ï¿½ï¿½i2ï¿½ï¿½Öµ
+    		if(i == intervals.size() - 1)//ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     			i2 = new Interval(Integer.MAX_VALUE, Integer.MAX_VALUE);
-    		else//·ñÔò£¬i2×îºói1ºóÃæµÄÖµ
+    		else//ï¿½ï¿½ï¿½ï¿½i2ï¿½ï¿½ï¿½i1ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
     			i2 = intervals.get(i+1);
-    		//ºÏ²¢Çø¼ä	
+    		//ï¿½Ï²ï¿½ï¿½ï¿½ï¿½ï¿½	
     		if(i2.start >= i1.start && i2.start <= i1.end){
     			i1.end = Math.max(i1.end, i2.end);
-    		}else{//Ã»ÓĞ½»¼¯£¬Ö±½ÓÌí¼Ó
+    		}else{//Ã»ï¿½Ğ½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½
     			list.add(i1);
-    			i1 = i2;//i1¸üµü
+    			i1 = i2;//i1ï¿½ï¿½ï¿½ï¿½
     		}
     	}
 		return list;
     }
     
-    //·Ö±ğ¶ÔstartºÍend½øĞĞÅÅĞò
+    //ï¿½Ö±ï¿½ï¿½startï¿½ï¿½endï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public List<Interval> merge2(List<Interval> intervals) {
         int n = intervals.size();  
         int[] starts = new int[n];  
