@@ -1,0 +1,133 @@
+39. 组合总和
+[2,3,7],target=8.
+Result: {[2,2,2,2],[2,3,3]}
+
+// 递归+回溯 
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        Arrays.sort(candidates);
+        
+        getResult(candidates, target, result, 0, new int[target], 0);
+        return result;
+    }
+    
+    public void getResult(int[] candidates, int target, List<List<Integer>> result, int pos, int[] ans, int num){
+        for(int i=pos; i<candidates.length; i++){
+            if(target == candidates[i]){
+                List<Integer> res = new ArrayList<Integer>();
+                for(int j=0; j<num; j++){
+                    res.add(ans[j]);
+                }
+                res.add(candidates[i]);// ans的数全部添加到res，并且加上当前的candidates
+                result.add(res);
+                return;
+            }else if(target>candidates[i]){
+                ans[num] = candidates[i];// 将candidates的数字添加到ans数组中，所以下一个迭代，num+1。
+                getResult(candidates, target - candidates[i], result, i, ans, num+1);
+            }else
+                return;        
+        }
+    }
+}
+
+
+
+46. 全排列
+思路：第一个元素依次和后面的元素进行交换，然后递归，最后交换还原。
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        //List<Integer> res = new ArrayList<Integer>();
+        
+        getResult(result, nums, 0);
+        return result;
+    }
+    
+    public void getResult(List<List<Integer>> result, int[] nums, int start){
+        List<Integer> res = new ArrayList<Integer>();
+        if(start==nums.length){
+            for(int i=0; i<nums.length; i++){
+                res.add(nums[i]);
+            }
+            result.add(res);
+        }else{
+            for(int j=start; j<nums.length; j++){
+                swap(nums,start, j);// 将起始位置的元素与后面的元素依次交换
+                getResult(result, nums, start+1); // 起始坐标+1后，递归
+                swap(nums,start, j);// 将交换的元素还原
+            }
+        }
+    }
+    void swap(int[] nums, int index1, int index2){
+        int temp = nums[index1];
+        nums[index1] = nums[index2];
+        nums[index2] = temp;
+    }
+    
+}
+
+47. 包含重复元素的不重复的全排列（多一步checksame）
+
+public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        getResult(result, nums, 0);
+        return result;
+    }
+    
+    public void getResult(List<List<Integer>> result, int[] nums, int start){
+        if(start==nums.length){
+            List<Integer> res = new ArrayList<Integer>();
+            for(int i=0; i<nums.length; i++){
+                res.add(nums[i]);
+            }
+            result.add(res);
+        }else{
+            for(int j=start; j<nums.length; j++){
+                if(!checkSame(nums, start, j-1,j)) continue;
+                swap(nums, j, start);
+                getResult(result,nums,start+1);
+                swap(nums, j, start);
+            }
+        }
+    }
+    
+    boolean checkSame(int[] nums, int start, int end, int target){
+        for(int i = start; i<=end;i++){
+            if(nums[i]==nums[target])
+                return false;
+        }
+        return true;
+        
+    }
+    void swap(int[] nums, int index1, int index2){
+        int temp = nums[index1];
+        nums[index1] = nums[index2];
+        nums[index2] = temp;
+    }
+
+77.给定两个整数 n 和 k，返回 1 ... n 中所有可能的 k 个数的组合。
+思路： 递归+回溯，和全排列类似，找到起始点的范围，找到循环跳出条件（k=0）
+class Solution {
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        List<Integer> res = new ArrayList<Integer>();
+        int start =1;
+        getResult(result, res, n, k, start);
+        return result;
+    }
+    
+    void getResult(List<List<Integer>> result, List<Integer> res, int n, int k, int start){
+        if(k==0){
+            result.add(new ArrayList<Integer>(res));
+            return;
+        }
+            
+        for(int i=start; i<=n-k+1; i++){
+            res.add(i);
+            getResult(result, res, n, k-1, i+1);
+            res.remove(res.size()-1);
+        }
+        
+    }
+}

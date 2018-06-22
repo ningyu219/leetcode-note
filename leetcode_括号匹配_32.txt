@@ -1,0 +1,44 @@
+class Solution {
+	//解法1：stack:
+    public int longestValidParentheses(String s) {
+        Stack<Integer> sk = new Stack<Integer>();
+        for(int i=0; i<s.length();i++){
+            char symbol = s.charAt(i);
+            if(symbol==')'){
+                //System.out.print(sk.peek() + " ");
+                if(!sk.isEmpty() && s.charAt(sk.peek())=='('){
+                    sk.pop();
+                    continue;
+                }                   
+            }
+            sk.push(i);
+        }        
+		int maxLength = 0;
+		int nextIndex = s.length();//注意：不能直接=length()-1, 在后续while循环中，如果top元素为s最后一位，则结果错误
+		while(!sk.isEmpty()){
+			int curIndex = sk.pop();
+			maxLength = (nextIndex-curIndex-1)>maxLength:nextIndex-curIndex-1 : maxLength;
+			nextIndex = curIndex;
+		}
+        
+        return Math.max(maxLength, nextIndex);
+    } 
+
+	// 解法2：动态规划
+	public int longestValidParentheses(String s) {
+        int result = 0;
+        s = ")" +s;
+        int[] dp = new int[s.length()];
+        
+        //dp[i]当前匹配上的终点最长长度，只在‘）’处更新。
+        for(int i=1; i<s.length(); i++){
+            if(s.charAt(i)==')'){
+                if(s.charAt(i-1-dp[i-1])=='(')//如果s[i-1 - dp[i-1]]==‘(’，表示当前位置可以与此位置匹配，所以dp[i]=dp[i-1]+2
+                    dp[i] = dp[i-1] +2;
+                dp[i]+=dp[i-dp[i]];// 还要加上匹配位置之前的最长长度。
+            }
+            result = Math.max(result, dp[i]);
+        }
+        return result;
+    } 
+}

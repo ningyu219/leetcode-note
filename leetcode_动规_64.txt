@@ -1,0 +1,24 @@
+64. grid[m][n]最小路径和
+思路：动态规划（！每次只能向下或者向右移动，所以遍历矩阵，并且把每次计算的和作为元素值，就能计算出最终路径）
+注意：考虑row=0和col=0的情况
+
+public int minPathSum(int[][] grid) {
+        int row = grid.length;
+        int col = -1;
+        if(row!=0)
+            col = grid[0].length;
+        
+        for(int i=0; i<row; i++){
+            for(int j=0; j<col; j++){
+                if(i!=0 && j!=0){
+                    grid[i][j]+=Math.min(grid[i-1][j],grid[i][j-1]);
+                }else{
+                    if(i==0 && j!=0)
+                        grid[i][j]+=grid[i][j-1];
+                    else if(i!=0 && j==0)
+                        grid[i][j]+=grid[i-1][j];
+                }
+            }
+        }
+        return grid[row-1][col-1];
+    }
